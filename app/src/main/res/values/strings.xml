@@ -47,4 +47,5 @@
     <string name="contain_descr">Find words that contains  the given word</string>
     <string name="feedback">Feedback</string>
     <string name="enter_some_feedback">Enter some feedback here :)</string>
+    <string name="ShareApp">ShareApp!</string>
 </resources>

@@ -17,6 +17,7 @@ import com.shifz.wordbird.models.Menu;
 import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.ui.DialogHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,10 @@ public class MenuActivity extends AppCompatActivity implements CallBack {
 
 
     private static final String DEVELOPER_EMAIL = "shifar.shifz@gmail.com";
+    private static final String BLUETOOTH_APP = "com.android.bluetooth";
     public static List<Menu> menuList;
     private DialogHelper dialogHelper;
+    private Intent shareIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,16 @@ public class MenuActivity extends AppCompatActivity implements CallBack {
         switch (item.getItemId()) {
             case R.id.actionHistory:
                 startActivity(new Intent(MenuActivity.this, HistoryActivity.class));
+                return true;
+            case R.id.miShareApp:
+                //Sharing app via bluetooth
+                if (shareIntent == null) {
+                    shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setPackage(BLUETOOTH_APP);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(getApplicationInfo().sourceDir)));
+                    shareIntent.setType("*/*");
+                }
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.ShareApp)));
                 return true;
             case R.id.actionFeedback:
                 sendFeedback();

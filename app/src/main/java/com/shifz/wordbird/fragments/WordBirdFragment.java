@@ -241,13 +241,6 @@ public class WordBirdFragment extends Fragment implements ProgressManager.Callba
     }
 
     @Override
-    public void onDestroy() {
-        Log.d(TAG, "Cancelling request onDestroy");
-        OkHttpHelper.getClient().cancel(Request.KEY);
-        super.onDestroy();
-    }
-
-    @Override
     public void onDestroyView() {
         Log.d(TAG, "Cancelling request onDestroyView");
         OkHttpHelper.getClient().cancel(Request.KEY);

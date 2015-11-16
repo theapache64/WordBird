@@ -22,7 +22,7 @@ public class OkHttpHelper {
 
     private static final OkHttpClient client = new OkHttpClient();
 
-    public static void getResult(final Request request,final Callback callback){
+    public static void getResult(final Request request, final Callback callback){
 
         final String url = String.format(GET_RESULT_URL_FORMAT,request.getType(),request.getWord());
         final com.squareup.okhttp.Request okRequest = new com.squareup.okhttp.Request.Builder()
