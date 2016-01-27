@@ -53,9 +53,12 @@ public class MenuActivity extends AppCompatActivity implements CallBack {
             menuList.add(new Menu(R.string.title_singular, R.string.singular_descr, Codes.CODE_SINGULAR, false));
             menuList.add(new Menu(R.string.title_past, R.string.past_descr, Codes.CODE_PAST, false));
             menuList.add(new Menu(R.string.title_present, R.string.present_descr, Codes.CODE_PRESENT, false));
+
+            /*
+            TODO: There are some bugs in the below sections (Pagination Bug)
             menuList.add(new Menu(R.string.title_start, R.string.start_descr, Codes.CODE_START, true));
             menuList.add(new Menu(R.string.title_end, R.string.end_descr, Codes.CODE_END, true));
-            menuList.add(new Menu(R.string.title_contain, R.string.contain_descr, Codes.CODE_CONTAIN, true));
+            menuList.add(new Menu(R.string.title_contain, R.string.contain_descr, Codes.CODE_CONTAIN, true));*/
         }
 
         final RecyclerView rvMenu = (RecyclerView) findViewById(R.id.rvMenu);
@@ -83,9 +86,8 @@ public class MenuActivity extends AppCompatActivity implements CallBack {
                 //Sharing app via bluetooth
                 if (shareIntent == null) {
                     shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setPackage(BLUETOOTH_APP);
                     shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(getApplicationInfo().sourceDir)));
-                    shareIntent.setType("*/*");
+                    shareIntent.setType("application/vnd.android.package-archive");
                 }
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.ShareApp)));
                 return true;

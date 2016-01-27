@@ -2,6 +2,7 @@ package com.shifz.wordbird;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +29,7 @@ public class HistoryActivity extends AppCompatActivity implements RecentCallback
     private DBHelper dbHelper;
     private int lastRemovedRecentRequestPosition;
     private RecentRequest lastRemovedRecentRequest;
-    private View fabRemoveAll;
+    private FloatingActionButton fabRemoveAll;
     private View tvNoHistoryFoundV;
 
     @Override
@@ -41,7 +42,7 @@ public class HistoryActivity extends AppCompatActivity implements RecentCallback
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fabRemoveAll = findViewById(R.id.fabRemoveAll);
+        fabRemoveAll = (FloatingActionButton) findViewById(R.id.fabRemoveAll);
         tvNoHistoryFoundV = findViewById(R.id.tvNoHistoryFound);
 
         //Checking if there's any history exists
@@ -51,11 +52,12 @@ public class HistoryActivity extends AppCompatActivity implements RecentCallback
         if (recentRequestList == null) {
             //No history exists
             //Hiding fab
-            fabRemoveAll.setVisibility(View.GONE);
+            fabRemoveAll.hide();
             tvNoHistoryFoundV.setVisibility(View.VISIBLE);
 
         } else {
             //has history
+            fabRemoveAll.show();
 
             //Setting fab
             fabRemoveAll.setOnClickListener(new View.OnClickListener() {

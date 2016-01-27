@@ -9,7 +9,7 @@ import com.squareup.okhttp.OkHttpClient;
  */
 public class OkHttpHelper {
 
-    public static final String BASE_URL = "http://shifar-shifz.rhcloud.com/WordBird";
+    public static final String BASE_URL = "http://wordbird-axefox.rhcloud.com";
 
     private static final String GET_RESULT_URL_FORMAT = BASE_URL + "/Get/%s/%s";
     private static final String KEY_AUTHORIZATION = "Authorization";
