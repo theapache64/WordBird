@@ -44,36 +44,36 @@ public class WordBirdServlet extends HttpServlet {
         resp.setContentType("application/json");
         final PrintWriter out = resp.getWriter();
 
-        System.out.println("Processing request...");
+        //System.out.println("Processing request...");
 
         //Checking the request validity
         final String pathInfo = req.getPathInfo();
 
-        System.out.println("PathInfo : "+pathInfo);
+        //System.out.println("PathInfo : "+pathInfo);
 
         if (pathInfo != null) {
 
             final String[] urlParts = pathInfo.split("/");
             if (urlParts.length == VALID_URL_PART_COUNT) {
 
-               System.out.println("Valid Request :)");
+               //System.out.println("Valid Request :)");
 
                 final Security security = new Security(req.getHeader(Security.KEY_AUTHORIZATION));
                 final User user = security.getUser();
 
                 if (user != null) {
 
-                   System.out.println("Valid user :)");
+                   //System.out.println("Valid user :)");
 
                     final String operationType = urlParts[1];
 
                     final Request newRequest = new Request(operationType);
 
-                   System.out.println("Request created :)");
+                   //System.out.println("Request created :)");
 
                     if (newRequest.getCode() != null) {
 
-                       System.out.println("Valid request :)");
+                       //System.out.println("Valid request :)");
 
                         //Valid request, now set the word and the userId
                         final String word = urlParts[2];
@@ -86,20 +86,20 @@ public class WordBirdServlet extends HttpServlet {
 
                         if (result == null) {
 
-                           System.out.println("Not found  in db :| , Checking in network :)");
+                           //System.out.println("Not found  in db :| , Checking in network :)");
 
                             //Fresh word, not exist in db
                             final WordBirdGrabber wordGrabber = new WordBirdGrabber(newRequest);
                             result = wordGrabber.getResult();
 
-                           System.out.println("Network check completed");
+                           //System.out.println("Network check completed");
 
                         }
 
                         if (result != null && result.isSuccess()) {
 
 
-                           System.out.println("Positive result");
+                           //System.out.println("Positive result");
 
                             //Awesome, we got valid result
                             try {
@@ -121,7 +121,7 @@ public class WordBirdServlet extends HttpServlet {
 
                         } else {
 
-                           System.out.println("Negative result :(");
+                           //System.out.println("Negative result :(");
 
                             //Failed to find the result
                             out.write(

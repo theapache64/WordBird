@@ -86,7 +86,7 @@ public class WordBirdGrabber {
         final NetworkHelper networkHelper = new NetworkHelper(url);
         final String networkResponse = networkHelper.getResponse();
 
-        System.out.println("Network response : " + networkResponse);
+        //System.out.println("Network response : " + networkResponse);
 
         if (networkResponse != null) {
 
@@ -100,7 +100,7 @@ public class WordBirdGrabber {
 
                     if (isNoMatchFound(wordTypeNode)) {
                         //No word found
-                        System.out.println("No match found :(");
+                        //System.out.println("No match found :(");
                         return null;
                     }
 
@@ -118,7 +118,7 @@ public class WordBirdGrabber {
 
                             String word = synonymMatcher.group(1);
 
-                            System.out.println("Result: " + word);
+                            //System.out.println("Result: " + word);
 
                             if (request.isClearHtml()) {
                                 word = removeHtml(word);

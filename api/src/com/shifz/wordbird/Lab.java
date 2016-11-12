@@ -18,7 +18,7 @@ public class Lab {
         final BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://wordhippo.com/what-is/sentences-with-the-word/love.html").openStream()));
         String line;
         while ((line = br.readLine()) != null) {
-            System.out.println(line);
+            //System.out.println(line);
         }
 
         /*final BufferedReader br = new BufferedReader(new FileReader("index.htm"));

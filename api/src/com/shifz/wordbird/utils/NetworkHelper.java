@@ -23,7 +23,7 @@ public class NetworkHelper {
 
     public String getResponse() {
 
-        System.out.println("->" + url);
+        //System.out.println("->" + url);
 
         try {
             final URL urlOb = new URL(url);
@@ -39,7 +39,7 @@ public class NetworkHelper {
             isr.close();
             br.close();
 
-            System.out.println("Network response downloaded + ");
+            //System.out.println("Network response downloaded + ");
 
             return response.toString();
         } catch (IOException e) {
