@@ -9,22 +9,20 @@ import com.squareup.okhttp.OkHttpClient;
  */
 public class OkHttpHelper {
 
-    public static final String BASE_URL = "http://wordbird-axefox.rhcloud.com";
-
-    private static final String GET_RESULT_URL_FORMAT = BASE_URL + "/Get/%s/%s";
-    private static final String KEY_AUTHORIZATION = "Authorization";
+    public static final String BASE_URL = App.DEBUG ? "http://192.168.0.101:8080" : "http://35.161.57.139:8080/wordbird";
     public static final String KEY_ERROR = "error";
     public static final String KEY_MESSAGE = "message";
+    private static final String GET_RESULT_URL_FORMAT = BASE_URL + "/Get/%s/%s";
+    private static final String KEY_AUTHORIZATION = "Authorization";
+    private static final OkHttpClient client = new OkHttpClient();
 
     public static OkHttpClient getClient() {
         return client;
     }
 
-    private static final OkHttpClient client = new OkHttpClient();
+    public static void getResult(final Request request, final Callback callback) {
 
-    public static void getResult(final Request request, final Callback callback){
-
-        final String url = String.format(GET_RESULT_URL_FORMAT,request.getType(),request.getWord());
+        final String url = String.format(GET_RESULT_URL_FORMAT, request.getType(), request.getWord());
         final com.squareup.okhttp.Request okRequest = new com.squareup.okhttp.Request.Builder()
                 .url(url)
                 .tag(Request.KEY)

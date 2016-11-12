@@ -11,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.shifz.wordbird.adapters.interfaces.CallBack;
 import com.shifz.wordbird.adapters.MenuAdapter;
+import com.shifz.wordbird.adapters.interfaces.CallBack;
 import com.shifz.wordbird.models.Menu;
 import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.ui.DialogHelper;
@@ -55,7 +55,7 @@ public class MenuActivity extends AppCompatActivity implements CallBack {
             menuList.add(new Menu(R.string.title_present, R.string.present_descr, Codes.CODE_PRESENT, false));
 
             /*
-            TODO: There are some bugs in the below sections (Pagination Bug)
+            TODO: There are some bugs in below sections (Pagination Bug)
             menuList.add(new Menu(R.string.title_start, R.string.start_descr, Codes.CODE_START, true));
             menuList.add(new Menu(R.string.title_end, R.string.end_descr, Codes.CODE_END, true));
             menuList.add(new Menu(R.string.title_contain, R.string.contain_descr, Codes.CODE_CONTAIN, true));*/

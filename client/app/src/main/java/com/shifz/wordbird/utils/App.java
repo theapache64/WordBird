@@ -9,6 +9,7 @@ import com.shifz.wordbird.InActivity;
  */
 public class App extends Application {
 
+    public static final boolean DEBUG = false;
     public static String apiKey = null;
 
     @Override
