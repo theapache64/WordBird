@@ -14,7 +14,7 @@ public class Users extends Table<User> {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_IMEI = "imei";
     public static final String COLUMN_API_KEY = "api_key";
-    private static final String COLUMN_ID = "id";
+    public static final String COLUMN_ID = "id";
     private static Users ourInstance = new Users();
 
     public static Users getInstance() {
