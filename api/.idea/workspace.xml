@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfdaffc1-48ce-408b-9d86-8bfa7799a52c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wordbird_api.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WordGrabberServlet.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WordGrabberServlet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.17628706">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WordBirdGrabber.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WordBirdGrabber.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.2714509">
-              <caret line="89" column="12" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="176" column="0" selection-start-line="176" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -166,8 +163,8 @@
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/AdvancedBaseServlet.java" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/utils/HeaderSecurity.java" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" />
-        <option value="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" />
+        <option value="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" />
       </list>
     </option>
   </component>
@@ -374,6 +371,47 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -577,7 +615,7 @@
       <method />
     </configuration>
     <configuration default="false" name="wordCat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.54" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
-      <option name="UPDATING_POLICY" value="restart-server" />
+      <option name="UPDATING_POLICY" value="redeploy-artifacts" />
       <deployment>
         <artifact name="wordbird_api:war exploded">
           <settings>
@@ -666,7 +704,7 @@
       <workItem from="1479041125668" duration="844000" />
       <workItem from="1479042507655" duration="1312000" />
       <workItem from="1479052472138" duration="128000" />
-      <workItem from="1479133760504" duration="931000" />
+      <workItem from="1479133760504" duration="2752000" />
     </task>
     <task id="LOCAL-00001" summary="Added supported methods.&#10;Testing url data collection.">
       <created>1479134510602</created>
@@ -678,7 +716,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8395000" />
+    <option name="totallyTimeSpent" value="10216000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1366" height="772" extended-state="6" />
@@ -1136,21 +1174,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java">
+    <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="176" column="0" selection-start-line="176" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java">
+    <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2714509">
-          <caret line="89" column="12" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
-          <folding />
+        <state vertical-scroll-proportion="0.17628706">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

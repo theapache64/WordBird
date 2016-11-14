@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -57,11 +59,17 @@ public class WordGrabberServlet extends HttpServlet {
                 try {
 
                     //TODO:Collecting data from url
-                    final String data = new NetworkHelper(url).getResponse();
+                    String data = new NetworkHelper(url).getResponse();
+                    System.out.println("Data length: " + data.length());
+                    data = data.replaceAll("[^'a-zA-Z]", " ");
 
-                    System.out.println(data);
+                    System.out.println("Sterilized data: " + data);
+                    out.write(data);
+
 
                     //TODO:Remove html from data
+                    final List<String> words = new ArrayList<>();
+
                     //TODO:Remove unnecessary symbols
                     //TODO:Loop through each word
                     //TODO:Loop through each option
@@ -70,7 +78,7 @@ public class WordGrabberServlet extends HttpServlet {
                     //TODO:Add request to db
                     //TODO:Add result to db
                 } catch (IOException e) {
-                    out.write(JSONHelper.getErrorJSON(e.getMessage()));
+                    out.write(JSONHelper.getErrorJSON("Invalid URL : " + url + " : " + e.getMessage()));
                 }
 
 
