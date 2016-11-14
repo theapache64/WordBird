@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,67 +85,76 @@ public class WordBirdGrabber {
         final String url = String.format(BASE_URL_FORMAT, request.getCode(), request.getWord());
 
         final NetworkHelper networkHelper = new NetworkHelper(url);
-        final String networkResponse = networkHelper.getResponse();
 
-        //System.out.println("Network response : " + networkResponse);
+        try {
+            
+            final String networkResponse = networkHelper.getResponse();
 
-        if (networkResponse != null) {
+            //System.out.println("Network response : " + networkResponse);
 
-            try {
+            if (networkResponse != null) {
 
-                final JSONArray jResponse = new JSONArray();
+                try {
 
-                for (final String wordTypeNode : getWordTypeNodes(networkResponse)) {
+                    final JSONArray jResponse = new JSONArray();
 
-                    final String wordTypeName = wordTypeNode.split(FOURTH_DELIMITER)[0];
+                    for (final String wordTypeNode : getWordTypeNodes(networkResponse)) {
 
-                    if (isNoMatchFound(wordTypeNode)) {
-                        //No word found
-                        //System.out.println("No match found :(");
-                        return null;
-                    }
+                        final String wordTypeName = wordTypeNode.split(FOURTH_DELIMITER)[0];
+
+                        if (isNoMatchFound(wordTypeNode)) {
+                            //No word found
+                            //System.out.println("No match found :(");
+                            return null;
+                        }
 
 
-                    if (!wordTypeName.trim().isEmpty()) {
+                        if (!wordTypeName.trim().isEmpty()) {
 
-                        final JSONObject jNode = new JSONObject();
-                        jNode.put(KEY_HEAD, wordTypeName);
+                            final JSONObject jNode = new JSONObject();
+                            jNode.put(KEY_HEAD, wordTypeName);
 
-                        final JSONArray jBody = new JSONArray();
+                            final JSONArray jBody = new JSONArray();
 
-                        final Matcher synonymMatcher = getMatcher(wordTypeNode);
+                            final Matcher synonymMatcher = getMatcher(wordTypeNode);
 
-                        while (synonymMatcher.find()) {
+                            while (synonymMatcher.find()) {
 
-                            String word = synonymMatcher.group(1);
+                                String word = synonymMatcher.group(1);
 
-                            //System.out.println("Result: " + word);
+                                //System.out.println("Result: " + word);
 
-                            if (request.isClearHtml()) {
-                                word = removeHtml(word);
+                                if (request.isClearHtml()) {
+                                    word = removeHtml(word);
+                                }
+
+                                if (!isInvalidWord(word)) {
+                                    jBody.put(word);
+                                }
+
                             }
 
-                            if (!isInvalidWord(word)) {
-                                jBody.put(word);
-                            }
+                            jNode.put(KEY_BODY, jBody);
+                            jResponse.put(jNode);
 
                         }
 
-                        jNode.put(KEY_BODY, jBody);
-                        jResponse.put(jNode);
-
                     }
 
+                    return new Result(Result.SOURCE_NETWORK, jResponse.toString(), true);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null;
                 }
 
-                return new Result(Result.SOURCE_NETWORK, jResponse.toString(), true);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
+
         return null;
     }
 

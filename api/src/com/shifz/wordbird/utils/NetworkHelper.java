@@ -21,32 +21,27 @@ public class NetworkHelper {
         this.url = url;
     }
 
-    public String getResponse() {
+    public String getResponse() throws IOException {
 
         //System.out.println("->" + url);
 
-        try {
-            final URL urlOb = new URL(url);
-            final InputStream is = urlOb.openStream();
-            final InputStreamReader isr = new InputStreamReader(is);
-            final BufferedReader br = new BufferedReader(isr);
-            final StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                response.append(line).append("\n");
-            }
-            is.close();
-            isr.close();
-            br.close();
-
-            //System.out.println("Network response downloaded + ");
-
-            return response.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+        final URL urlOb = new URL(url);
+        final InputStream is = urlOb.openStream();
+        final InputStreamReader isr = new InputStreamReader(is);
+        final BufferedReader br = new BufferedReader(isr);
+        final StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            response.append(line).append("\n");
         }
+        is.close();
+        isr.close();
+        br.close();
 
-        return null;
+        //System.out.println("Network response downloaded + ");
+
+        return response.toString();
+
     }
 
 }

@@ -6,14 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfdaffc1-48ce-408b-9d86-8bfa7799a52c" name="Default" comment="Added supported methods.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/WEB-INF/classes/com/shifz/wordbird/database/Connection.class" afterPath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/WEB-INF/classes/com/shifz/wordbird/database/Connection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/wordbird_api/com/shifz/wordbird/database/Connection.class" afterPath="$PROJECT_DIR$/out/production/wordbird_api/com/shifz/wordbird/database/Connection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/WEB-INF/classes/com/shifz/wordbird/database/Users.class" afterPath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/WEB-INF/classes/com/shifz/wordbird/database/Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/wordbird_api/com/shifz/wordbird/database/Users.class" afterPath="$PROJECT_DIR$/out/production/wordbird_api/com/shifz/wordbird/database/Users.class" />
+    <list default="true" id="bfdaffc1-48ce-408b-9d86-8bfa7799a52c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" afterPath="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/META-INF/context.xml" afterPath="$PROJECT_DIR$/out/artifacts/wordbird_api_war_exploded/META-INF/context.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wordbird_api.iws" />
@@ -47,14 +43,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WordGrabberServlet.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WordGrabberServlet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.0689654">
-              <caret line="59" column="39" selection-start-line="59" selection-start-column="39" selection-end-line="59" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WordBirdGrabber.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.2714509">
+              <caret line="89" column="12" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -98,16 +104,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="22" column="61" selection-start-line="22" selection-start-column="61" selection-end-line="22" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Users.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/database/Users.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -169,7 +165,9 @@
         <option value="$PROJECT_DIR$/web/META-INF/context.xml" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/AdvancedBaseServlet.java" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/utils/HeaderSecurity.java" />
+        <option value="$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java" />
         <option value="$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java" />
+        <option value="$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java" />
       </list>
     </option>
   </component>
@@ -668,12 +666,19 @@
       <workItem from="1479041125668" duration="844000" />
       <workItem from="1479042507655" duration="1312000" />
       <workItem from="1479052472138" duration="128000" />
-      <workItem from="1479133760504" duration="723000" />
+      <workItem from="1479133760504" duration="931000" />
     </task>
+    <task id="LOCAL-00001" summary="Added supported methods.&#10;Testing url data collection.">
+      <created>1479134510602</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1479134510602</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8187000" />
+    <option name="totallyTimeSpent" value="8395000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1366" height="772" extended-state="6" />
@@ -687,7 +692,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5663189" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5663189" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -748,7 +753,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added supported methods." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added supported methods." />
+    <MESSAGE value="Added supported methods.&#10;Testing url data collection." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added supported methods.&#10;Testing url data collection." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1125,18 +1131,26 @@
     <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/utils/NetworkHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/servlets/WordGrabberServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.0689654">
-          <caret line="59" column="39" selection-start-line="59" selection-start-column="39" selection-end-line="59" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/shifz/wordbird/core/WordBirdGrabber.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2714509">
+          <caret line="89" column="12" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

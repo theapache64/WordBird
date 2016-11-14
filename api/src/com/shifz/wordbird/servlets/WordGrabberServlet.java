@@ -54,19 +54,24 @@ public class WordGrabberServlet extends HttpServlet {
             //url param is not empty!
             if (url.matches(URL_REGEX)) {
 
-                //TODO:Collecting data from url
-                final String data = new NetworkHelper(url).getResponse();
+                try {
 
-                System.out.println(data);
+                    //TODO:Collecting data from url
+                    final String data = new NetworkHelper(url).getResponse();
 
-                //TODO:Remove html from data
-                //TODO:Remove unnecessary symbols
-                //TODO:Loop through each word
-                //TODO:Loop through each option
-                //TODO:Check if exist in db
-                //TODO:Check if it's invalid
-                //TODO:Add request to db
-                //TODO:Add result to db
+                    System.out.println(data);
+
+                    //TODO:Remove html from data
+                    //TODO:Remove unnecessary symbols
+                    //TODO:Loop through each word
+                    //TODO:Loop through each option
+                    //TODO:Check if exist in db
+                    //TODO:Check if it's invalid
+                    //TODO:Add request to db
+                    //TODO:Add result to db
+                } catch (IOException e) {
+                    out.write(JSONHelper.getErrorJSON(e.getMessage()));
+                }
 
 
             } else {
