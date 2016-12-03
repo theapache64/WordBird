@@ -15,6 +15,4 @@ public class IndexedUrls extends BaseTable<IndexedUrls> {
         return instance;
     }
 
-
-
 }

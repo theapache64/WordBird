@@ -3,6 +3,7 @@ package com.shifz.wordbird.servlets;
 import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.utils.JSONHelper;
 import com.shifz.wordbird.utils.NetworkHelper;
+import com.shifz.wordbird.utils.WordExtractor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,25 +59,12 @@ public class WordGrabberServlet extends HttpServlet {
                 try {
 
                     //TODO:Collecting data from url
-                    String data = new NetworkHelper(url).getResponse();
+                    final String data = new NetworkHelper(url).getResponse();
+                    final List<String> words = WordExtractor.extract(data);
+
+
                     System.out.println("Data length: " + data.length());
-                    data = data.replaceAll("[^'a-zA-Z]", " ");
 
-                    System.out.println("Sterilized data: " + data);
-
-                    out.write(data);
-
-
-                    //TODO:Remove html from data
-                    final List<String> words = new ArrayList<>();
-
-                    //TODO:Remove unnecessary symbols
-                    //TODO:Loop through each word
-                    //TODO:Loop through each option
-                    //TODO:Check if exist in db
-                    //TODO:Check if it's invalid
-                    //TODO:Add request to db
-                    //TODO:Add result to db
                 } catch (IOException e) {
                     out.write(JSONHelper.getErrorJSON("Invalid URL : " + url + " : " + e.getMessage()));
                 }
