@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS indexed_urls;
+CREATE TABLE IF NOT EXISTS indexed_urls(
+  id INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY(id)
+);
