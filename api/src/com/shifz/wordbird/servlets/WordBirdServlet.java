@@ -2,7 +2,6 @@ package com.shifz.wordbird.servlets;
 
 import com.shifz.wordbird.core.WordBirdGrabber;
 import com.shifz.wordbird.database.Requests;
-import com.shifz.wordbird.database.Users;
 import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.models.Result;
 import com.shifz.wordbird.models.User;

@@ -3,7 +3,6 @@ package com.shifz.wordbird.servlets;
 import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.utils.JSONHelper;
 import com.shifz.wordbird.utils.NetworkHelper;
-import com.shifz.wordbird.utils.Validator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by theapache64 on 13/11/16.
@@ -51,6 +49,7 @@ public class WordGrabberServlet extends HttpServlet {
 
         //Getting url
         final String url = req.getParameter("url");
+
         if (url != null && !url.trim().isEmpty()) {
 
             //url param is not empty!
@@ -64,6 +63,7 @@ public class WordGrabberServlet extends HttpServlet {
                     data = data.replaceAll("[^'a-zA-Z]", " ");
 
                     System.out.println("Sterilized data: " + data);
+
                     out.write(data);
 
 
