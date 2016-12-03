@@ -9,13 +9,16 @@ import java.sql.SQLException;
 /**
  * Created by Shifar Shifz on 10/18/2015.
  */
-public class Users extends Table<User> {
+public class Users extends BaseTable<User> {
 
-    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_IMEI = "imei";
     public static final String COLUMN_API_KEY = "api_key";
-    public static final String COLUMN_ID = "id";
+
     private static Users ourInstance = new Users();
+
+    private Users() {
+        super("users");
+    }
 
     public static Users getInstance() {
         return ourInstance;

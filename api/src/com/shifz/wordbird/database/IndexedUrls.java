@@ -3,14 +3,18 @@ package com.shifz.wordbird.database;
 /**
  * Created by theapache64 on 3/12/16.
  */
-public class IndexedUrls extends Table<IndexedUrls> {
-    @Override
-    public boolean add(IndexedUrls indexedUrls) {
-        return false;
+public class IndexedUrls extends BaseTable<IndexedUrls> {
+
+    private static final IndexedUrls instance = new IndexedUrls();
+
+    private IndexedUrls() {
+        super("indexed_urls");
     }
 
-    @Override
-    public IndexedUrls get(String columnName, String columnValue) {
-        return null;
+    public static IndexedUrls getInstance() {
+        return instance;
     }
+
+
+
 }

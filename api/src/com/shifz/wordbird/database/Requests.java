@@ -11,13 +11,13 @@ import java.sql.SQLException;
 /**
  * Created by Shifar Shifz on 10/18/2015.
  */
-public class Requests extends Table<Request> {
+public class Requests extends BaseTable<Request> {
 
     private static final String COLUMN_RESULT = "result";
     private static final String COLUMN_IS_SUCCESS = "is_success";
     private static final String COLUMN_WORD = "word";
-    private static final String COLUMN_ID = "id" +
-            "";
+    private static final String COLUMN_ID = "id";
+
     private static Requests ourInstance = new Requests();
 
 
@@ -26,7 +26,7 @@ public class Requests extends Table<Request> {
     }
 
     private Requests() {
-
+        super("requests");
     }
 
     @Override
