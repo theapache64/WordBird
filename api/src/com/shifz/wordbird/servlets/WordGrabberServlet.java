@@ -1,6 +1,9 @@
 package com.shifz.wordbird.servlets;
 
+import com.shifz.wordbird.core.WordBirdGrabber;
+import com.shifz.wordbird.database.Requests;
 import com.shifz.wordbird.models.Request;
+import com.shifz.wordbird.utils.Extractor;
 import com.shifz.wordbird.utils.JSONHelper;
 import com.shifz.wordbird.utils.NetworkHelper;
 import com.shifz.wordbird.utils.WordExtractor;
@@ -58,9 +61,37 @@ public class WordGrabberServlet extends HttpServlet {
 
                 try {
 
-                    //TODO:Collecting data from url
                     final String data = new NetworkHelper(url).getResponse();
-                    final List<String> words = WordExtractor.extract(data);
+
+                    final List<String> words = Extractor.extractWords(data);
+                    if (words != null) {
+
+                        final Requests requests = Requests.getInstance();
+
+                        //looping through each word
+                        for (final String word : words) {
+
+                            //looping through each mode
+                            for (final String type : TYPES) {
+
+                                if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
+
+                                    final WordBirdGrabber grabber = new WordBirdGrabber(new Request(word, type));
+                                    grabber.
+
+                                } else {
+                                    System.out.println(String.format("word: %s - type: %s - exists", word, type));
+                                }
+
+                            }
+
+                        }
+
+                    } else {
+                        System.out.println("No words found");
+                    }
+
+                    final List<String> urls = Extractor.extractUrls(data);
 
 
                     System.out.println("Data length: " + data.length());

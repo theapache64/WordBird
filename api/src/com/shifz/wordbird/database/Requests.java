@@ -15,8 +15,9 @@ public class Requests extends BaseTable<Request> {
 
     private static final String COLUMN_RESULT = "result";
     private static final String COLUMN_IS_SUCCESS = "is_success";
-    private static final String COLUMN_WORD = "word";
+    public static final String COLUMN_WORD = "word";
     private static final String COLUMN_ID = "id";
+    public static final String COLUMN_TYPE = "type";
 
     private static Requests ourInstance = new Requests();
 
@@ -102,6 +103,8 @@ public class Requests extends BaseTable<Request> {
                         "LEFT JOIN results rs ON rs.id = r.result_id\n" +
                         "WHERE type = ? AND word= ?  LIMIT 1";
 
+        System.out.println("Query:" + query);
+
 
         final java.sql.Connection con = Connection.getConnection();
         Result dbResult = null;
@@ -121,6 +124,7 @@ public class Requests extends BaseTable<Request> {
 
             rs.close();
             ps.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
