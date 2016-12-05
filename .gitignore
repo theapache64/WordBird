@@ -18,4 +18,4 @@ hs_err_pid*
 */.idea/dataSources.local.ids
 */.idea/dataSources.xml
 
-*/web/META-INF/context.xml
+*/META-INF/context.xml
