@@ -2,7 +2,6 @@ package com.shifz.wordbird.database;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import com.theah64.sg.api_server.database.Connection;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

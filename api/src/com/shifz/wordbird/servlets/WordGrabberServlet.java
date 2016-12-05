@@ -6,7 +6,6 @@ import com.shifz.wordbird.models.Request;
 import com.shifz.wordbird.utils.Extractor;
 import com.shifz.wordbird.utils.JSONHelper;
 import com.shifz.wordbird.utils.NetworkHelper;
-import com.shifz.wordbird.utils.WordExtractor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -77,7 +76,7 @@ public class WordGrabberServlet extends HttpServlet {
                                 if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
 
                                     final WordBirdGrabber grabber = new WordBirdGrabber(new Request(word, type));
-                                    grabber.
+                                    //TODO : To be continued...
 
                                 } else {
                                     System.out.println(String.format("word: %s - type: %s - exists", word, type));
