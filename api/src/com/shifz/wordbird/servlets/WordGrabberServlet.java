@@ -1,6 +1,7 @@
 package com.shifz.wordbird.servlets;
 
 import com.shifz.wordbird.core.WordBirdGrabber;
+import com.shifz.wordbird.database.BaseTable;
 import com.shifz.wordbird.database.Preference;
 import com.shifz.wordbird.database.Requests;
 import com.shifz.wordbird.database.UrlIndex;
@@ -63,7 +64,14 @@ public class WordGrabberServlet extends HttpServlet {
 
                 try {
 
-                    final Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
+                    final UrlIndex urlIndexTable = UrlIndex.getInstance();
+                    Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
+
+                    if (theUrl == null) {
+                        //Url does exist
+                        theUrl = new Url(null, url, null, false, true);
+                        final String urlId = urlIndexTable.add(theUrl);
+                    }
 
                     final String data = new NetworkHelper(url).getResponse();
 
@@ -111,7 +119,7 @@ public class WordGrabberServlet extends HttpServlet {
                         System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
                     }
 
-                } catch (IOException e) {
+                } catch (IOException | BaseTable.InsertFailedException e) {
                     out.write(JSONHelper.getErrorJSON(url + " : " + e.getMessage()));
                 }
 
