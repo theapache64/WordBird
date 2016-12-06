@@ -1,8 +1,12 @@
 package com.shifz.wordbird.servlets;
 
 import com.shifz.wordbird.core.WordBirdGrabber;
+import com.shifz.wordbird.database.Preference;
 import com.shifz.wordbird.database.Requests;
+import com.shifz.wordbird.database.UrlIndex;
 import com.shifz.wordbird.models.Request;
+import com.shifz.wordbird.models.Result;
+import com.shifz.wordbird.models.Url;
 import com.shifz.wordbird.utils.Extractor;
 import com.shifz.wordbird.utils.JSONHelper;
 import com.shifz.wordbird.utils.NetworkHelper;
@@ -14,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,43 +63,64 @@ public class WordGrabberServlet extends HttpServlet {
 
                 try {
 
-                    final String data = new NetworkHelper(url).getResponse();
+                    final Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
 
-                    final List<String> words = Extractor.extractWords(data);
-                    if (words != null) {
+                    if (theUrl.shouldIndex()) {
 
-                        final Requests requests = Requests.getInstance();
+                        final String data = new NetworkHelper(url).getResponse();
 
-                        //looping through each word
-                        for (final String word : words) {
+                        //Extracting missing words only
+                        final List<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
 
-                            //looping through each mode
-                            for (final String type : TYPES) {
+                        if (words != null) {
 
-                                if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
+                            final Requests requests = Requests.getInstance();
 
-                                    final WordBirdGrabber grabber = new WordBirdGrabber(new Request(word, type));
-                                    //TODO : To be continued...
+                            final String grabberUserId = Preference.getInstance().getString(Preference.KEY_GRABBER_USER_ID);
 
-                                } else {
-                                    System.out.println(String.format("word: %s - type: %s - exists", word, type));
+                            //looping through each word
+                            for (final String word : words) {
+
+                                //looping through each mode
+                                for (final String type : TYPES) {
+
+                                    if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
+
+                                        final Request request = new Request(word, type);
+                                        request.setUserId(grabberUserId);
+
+                                        final WordBirdGrabber grabber = new WordBirdGrabber(request);
+                                        Result result = grabber.getResult();
+
+                                        if (result == null) {
+                                            //not exist in db, tryed in network but negative
+                                            result = new Result(Result.SOURCE_NETWORK, null, false);
+                                        }
+
+
+                                        request.setResult(result);
+                                        requests.add(request);
+
+                                    } else {
+                                        System.out.println(String.format("word: %s - type: %s - exists", word, type));
+                                    }
+
                                 }
 
                             }
 
+                        } else {
+                            System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
                         }
 
+
                     } else {
-                        System.out.println("No words found");
+                        System.out.println("No need to index");
                     }
 
-                    final List<String> urls = Extractor.extractUrls(data);
-
-
-                    System.out.println("Data length: " + data.length());
 
                 } catch (IOException e) {
-                    out.write(JSONHelper.getErrorJSON("Invalid URL : " + url + " : " + e.getMessage()));
+                    out.write(JSONHelper.getErrorJSON(url + " : " + e.getMessage()));
                 }
 
 
