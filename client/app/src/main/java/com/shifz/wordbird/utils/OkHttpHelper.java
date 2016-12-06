@@ -5,11 +5,11 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 
 /**
- * Created by Shifar Shifz on 10/23/2015.
+ * Created by Shifar Shifz on 10/23/2015.s
  */
 public class OkHttpHelper {
 
-    public static final String BASE_URL = App.DEBUG ? "http://192.168.0.101:8080" : "http://35.161.57.139:8080/wordbird";
+    public static final String BASE_URL = App.DEBUG ? "http://192.168.0.101:8080" : "http://theapache64.xyz:8080/wordbird";
     public static final String KEY_ERROR = "error";
     public static final String KEY_MESSAGE = "message";
     private static final String GET_RESULT_URL_FORMAT = BASE_URL + "/Get/%s/%s";
