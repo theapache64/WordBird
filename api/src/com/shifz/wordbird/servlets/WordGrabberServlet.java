@@ -65,59 +65,51 @@ public class WordGrabberServlet extends HttpServlet {
 
                     final Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
 
-                    if (theUrl.shouldIndex()) {
+                    final String data = new NetworkHelper(url).getResponse();
 
-                        final String data = new NetworkHelper(url).getResponse();
+                    //Extracting missing words only
+                    final List<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
 
-                        //Extracting missing words only
-                        final List<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
+                    if (words != null) {
 
-                        if (words != null) {
+                        final Requests requests = Requests.getInstance();
 
-                            final Requests requests = Requests.getInstance();
+                        final String grabberUserId = Preference.getInstance().getString(Preference.KEY_GRABBER_USER_ID);
 
-                            final String grabberUserId = Preference.getInstance().getString(Preference.KEY_GRABBER_USER_ID);
+                        //looping through each word
+                        for (final String word : words) {
 
-                            //looping through each word
-                            for (final String word : words) {
+                            //looping through each mode
+                            for (final String type : TYPES) {
 
-                                //looping through each mode
-                                for (final String type : TYPES) {
+                                if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
 
-                                    if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
+                                    final Request request = new Request(word, type);
+                                    request.setUserId(grabberUserId);
 
-                                        final Request request = new Request(word, type);
-                                        request.setUserId(grabberUserId);
+                                    final WordBirdGrabber grabber = new WordBirdGrabber(request);
+                                    Result result = grabber.getResult();
 
-                                        final WordBirdGrabber grabber = new WordBirdGrabber(request);
-                                        Result result = grabber.getResult();
-
-                                        if (result == null) {
-                                            //not exist in db, tryed in network but negative
-                                            result = new Result(Result.SOURCE_NETWORK, null, false);
-                                        }
-
-
-                                        request.setResult(result);
-                                        requests.add(request);
-
-                                    } else {
-                                        System.out.println(String.format("word: %s - type: %s - exists", word, type));
+                                    if (result == null) {
+                                        //not exist in db, tryed in network but negative
+                                        result = new Result(Result.SOURCE_NETWORK, null, false);
                                     }
 
+
+                                    request.setResult(result);
+                                    requests.add(request);
+
+                                } else {
+                                    System.out.println(String.format("word: %s - type: %s - exists", word, type));
                                 }
 
                             }
 
-                        } else {
-                            System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
                         }
 
-
                     } else {
-                        System.out.println("No need to index");
+                        System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
                     }
-
 
                 } catch (IOException e) {
                     out.write(JSONHelper.getErrorJSON(url + " : " + e.getMessage()));
