@@ -33,9 +33,11 @@
     KEY `FK_requests_results` (`result_id`)
   ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=389 ;
 
-DROP TABLE IF EXISTS indexed_urls;
+DROP TABLE IF EXISTS url_index;
 CREATE TABLE IF NOT EXISTS indexed_urls(
   id INT NOT NULL AUTO_INCREMENT,
+  url TEXT NOT NULL,
+  is_indexed TINY
   PRIMARY KEY(id)
 );
 
