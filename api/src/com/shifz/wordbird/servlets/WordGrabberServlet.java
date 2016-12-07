@@ -140,7 +140,7 @@ public class WordGrabberServlet extends HttpServlet {
 
                         //Url indexing finished. So update the database table.
                         theUrl.setIsIndexedAlready(true);
-                        theUrl.setWordsCount(words.size());
+                        theUrl.setWords(words);
                         final long elapsedTimeToFirstIndex = theUrl.getTotalTimeElapsedToFirstIndex() == -1 ? TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - indexingStartedAt) : theUrl.getTotalTimeElapsedToFirstIndex();
                         theUrl.setTotalTimeElapsedToFirstIndex(elapsedTimeToFirstIndex);
                         theUrl.setLastIndexedAt(System.currentTimeMillis());

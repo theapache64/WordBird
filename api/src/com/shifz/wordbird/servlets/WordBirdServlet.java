@@ -41,38 +41,36 @@ public class WordBirdServlet extends HttpServlet {
 
         //Response type
         resp.setContentType("application/json");
+        System.out.println("--------------------");
+
         final PrintWriter out = resp.getWriter();
 
-        //System.out.println("Processing request...");
 
         //Checking the request validity
         final String pathInfo = req.getPathInfo();
 
-        //System.out.println("PathInfo : "+pathInfo);
+        System.out.println("Requested path: " + pathInfo);
+
 
         if (pathInfo != null) {
 
             final String[] urlParts = pathInfo.split("/");
             if (urlParts.length == VALID_URL_PART_COUNT) {
 
-                //System.out.println("Valid Request :)");
 
                 final Security security = new Security(req.getHeader(Security.KEY_AUTHORIZATION));
                 final User user = security.getUser();
 
                 if (user != null) {
 
-                    //System.out.println("Valid user :)");
 
                     final String operationType = urlParts[1];
 
                     final Request newRequest = new Request(operationType);
 
-                    //System.out.println("Request created :)");
 
                     if (newRequest.getCode() != null) {
 
-                        //System.out.println("Valid request :)");
 
                         //Valid request, now set the word and the userId
                         final String word = urlParts[2];
@@ -85,20 +83,17 @@ public class WordBirdServlet extends HttpServlet {
 
                         if (result == null) {
 
-                            //System.out.println("Not found  in db :| , Checking in network :)");
+                            System.out.println("Downloading result...");
 
                             //Fresh word, not exist in db
                             final WordBirdGrabber wordGrabber = new WordBirdGrabber(newRequest);
                             result = wordGrabber.getResult();
 
-                            //System.out.println("Network check completed");
 
                         }
 
                         if (result != null) {
 
-
-                            //System.out.println("Positive result");
 
                             //Awesome, we got valid result
                             try {
@@ -120,7 +115,6 @@ public class WordBirdServlet extends HttpServlet {
 
                         } else {
 
-                            //System.out.println("Negative result :(");
 
                             //Failed to find the result
                             out.write(
@@ -162,8 +156,7 @@ public class WordBirdServlet extends HttpServlet {
             out.write(JSONHelper.getErrorJSON("Page not found"));
         }
 
-        out.flush();
-        out.close();
+        System.out.println("--------------------");
 
     }
 

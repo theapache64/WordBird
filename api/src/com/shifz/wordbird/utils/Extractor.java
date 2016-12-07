@@ -16,7 +16,7 @@ public class Extractor {
     private static final String WORD_REGEX = "[A-Za-z\\-]+";
 
 
-    public static Set<String> extractWords(String data, @Nullable List<String> wordsToExclude) {
+    public static Set<String> extractWords(String data, @Nullable Set<String> wordsToExclude) {
         //Removing html tags
         data = data.replaceAll("<[^>]*>", "");
         //multiple spaces to single space

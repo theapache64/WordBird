@@ -1,6 +1,7 @@
 package com.shifz.wordbird.models;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by theapache64 on 3/12/16.
@@ -13,17 +14,18 @@ public class Url {
     private final String url;
     private final boolean shouldReIndex;
     private boolean isIndexedAlready;
-    private final List<String> words;
+    private Set<String> words;
     private int wordsCount;
     private long totalTimeElapsedToFirstIndex;
     private long lastIndexedAt;
 
-    public Url(String id, String url, List<String> words, boolean isIndexedAlready, boolean shouldReIndex) {
+    public Url(String id, String url, Set<String> words, boolean isIndexedAlready, boolean shouldReIndex) {
         this.id = id;
         this.url = url;
-        this.words = words;
         this.shouldReIndex = shouldReIndex;
         this.isIndexedAlready = isIndexedAlready;
+
+        setWords(words);
     }
 
     public String getId() {
@@ -42,7 +44,7 @@ public class Url {
         return isIndexedAlready;
     }
 
-    public List<String> getWords() {
+    public Set<String> getWords() {
         return words;
     }
 
@@ -54,10 +56,6 @@ public class Url {
 
     public void setIsIndexedAlready(boolean isIndexedAlready) {
         this.isIndexedAlready = isIndexedAlready;
-    }
-
-    public void setWordsCount(int wordsCount) {
-        this.wordsCount = wordsCount;
     }
 
     public void setTotalTimeElapsedToFirstIndex(long totalTimeElapsedToFirstIndex) {
@@ -93,5 +91,13 @@ public class Url {
                 ", totalTimeElapsedToFirstIndex=" + totalTimeElapsedToFirstIndex +
                 ", lastIndexedAt=" + lastIndexedAt +
                 '}';
+    }
+
+    public void setWords(Set<String> words) {
+        this.words = words;
+
+        if (words != null) {
+            this.wordsCount = words.size();
+        }
     }
 }

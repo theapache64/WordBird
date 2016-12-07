@@ -5,9 +5,7 @@ import com.shifz.wordbird.models.Url;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -65,7 +63,7 @@ public class UrlIndex extends BaseTable<Url> {
 
         Url theUrl = null;
 
-        final String query = String.format("SELECT ui.id, ui.url, ui.is_indexed, ui.last_indexed_at, GROUP_CONCAT(r.word) AS words FROM url_index ui LEFT JOIN requests r ON r.url_id = ui.id WHERE %s = ? GROUP BY ui.id LIMIT 1;", column);
+        final String query = String.format("SELECT ui.id, ui.url, ui.is_indexed, ui.last_indexed_at, GROUP_CONCAT(DISTINCT r.word) AS words FROM url_index ui LEFT JOIN requests r ON r.url_id = ui.id WHERE %s = ? GROUP BY ui.id LIMIT 1;", column);
         final java.sql.Connection con = Connection.getConnection();
         try {
             final PreparedStatement ps = con.prepareStatement(query);
@@ -80,9 +78,9 @@ public class UrlIndex extends BaseTable<Url> {
                 final boolean isIndexed = rs.getBoolean(COLUMN_IS_INDEXED);
                 final long lastIndexedAt = rs.getLong(COLUMN_LAST_INDEXED_AT);
                 final String words = rs.getString(COLUMN_AS_WORDS);
-                List<String> wordList = null;
+                Set<String> wordList = null;
                 if (words != null) {
-                    wordList = Arrays.asList(words.split(","));
+                    wordList = new HashSet<>(Arrays.asList(words.split(",")));
                 }
 
                 final boolean shouldReIndex = TimeUnit.DAYS.convert(System.currentTimeMillis() - lastIndexedAt, TimeUnit.MILLISECONDS) >= Url.INDEX_THRESHOLD_IN_DAYS;

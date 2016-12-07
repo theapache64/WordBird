@@ -66,7 +66,7 @@ public class Requests extends BaseTable<Request> {
             ps.setString(3, request.getType());
 
             final Result result = request.getResult();
-            ps.setString(4, result.getId()); //result = null
+            ps.setString(4, result != null ? result.getId() : null); //result = null
             ps.setString(5, request.getUrlId());
 
             isAdded = ps.execute();
@@ -93,9 +93,6 @@ public class Requests extends BaseTable<Request> {
     public Result getResult(final Request request) {
 
         final String query = "SELECT rs.id, rs.result FROM requests r LEFT JOIN results rs ON rs.id = r.result_id WHERE type = ? AND word= ? LIMIT 1";
-
-
-        System.out.println("Query:" + query);
 
 
         final java.sql.Connection con = Connection.getConnection();
