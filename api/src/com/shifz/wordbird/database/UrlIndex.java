@@ -74,4 +74,42 @@ public class UrlIndex extends BaseTable<Url> {
 
         return theUrl;
     }
+
+     /*
+                        is_indexed = true;
+                        totalWords = words.size();
+                        timeElapsedToFirstIndexInSec = 9;
+                        lastIndexedAt = System.currentTimeInMillis()l
+                         */
+
+    @Override
+    public boolean update(Url url) {
+        boolean isUpdated = false;
+        final String query = "UPDATE url_index SET is_indexed = ?, total_words = ? , time_elapsed_to_first_index_in_sec = ?, last_indexed_at = ? WHERE id = ?";
+        final java.sql.Connection con = Connection.getConnection();
+        try {
+            final PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setBoolean(1, url.isIndexedAlready());
+            ps.setInt(2, url.getWordsCount());
+            ps.setLong(3, url.getTotalTimeElapsedToFirstIndex());
+            ps.setLong(4, url.getLastIndexedAt());
+
+            ps.setString(5, url.getId());
+
+            isUpdated = ps.executeUpdate() == 1;
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isUpdated;
+    }
 }

@@ -21,6 +21,7 @@ CREATE TABLE `results` (
   PRIMARY KEY (`id`)
 );
 
+
 CREATE TABLE url_index (
   id                                 INT        NOT NULL AUTO_INCREMENT,
   url                                TEXT       NOT NULL,

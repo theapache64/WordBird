@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by theapache64 on 13/11/16.
@@ -62,23 +63,31 @@ public class WordGrabberServlet extends HttpServlet {
             //url param is not empty!
             if (url.matches(URL_REGEX)) {
 
+                final long indexingStartedAt = System.currentTimeMillis();
+
+                //Valid URL
+
                 try {
 
                     final UrlIndex urlIndexTable = UrlIndex.getInstance();
+
+                    //Checking if the url is indexed.
                     Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
 
                     if (theUrl == null) {
-                        //Url does exist
+                        //New url, does not exist in the index.
                         theUrl = new Url(null, url, null, false, true);
-                        final String urlId = urlIndexTable.add(theUrl);
+                        final String urlId = urlIndexTable.addv3(theUrl);
+                        theUrl.setId(urlId);
                     }
+
 
                     final String data = new NetworkHelper(url).getResponse();
 
                     //Extracting missing words only
                     final List<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
 
-                    if (words != null) {
+                    if (words != null && !words.isEmpty()) {
 
                         final Requests requests = Requests.getInstance();
 
@@ -112,11 +121,21 @@ public class WordGrabberServlet extends HttpServlet {
                                 }
 
                             }
-
                         }
 
+                        //Url indexing finished. So update the database table.
+                        theUrl.setIsIndexedAlready(true);
+                        theUrl.setWordsCount(words.size());
+                        final long elapsedTimeToFirstIndex = theUrl.getTotalTimeElapsedToFirstIndex() == -1 ? TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - indexingStartedAt) : theUrl.getTotalTimeElapsedToFirstIndex();
+                        theUrl.setTotalTimeElapsedToFirstIndex(elapsedTimeToFirstIndex);
+                        theUrl.setLastIndexedAt(System.currentTimeMillis());
+
+                        urlIndexTable.update(theUrl);
+
+                        out.write(JSONHelper.getSuccessJSON("Indexing finished", "url", theUrl.toString()));
+
                     } else {
-                        System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
+                        out.write(JSONHelper.getErrorJSON(theUrl.isIndexedAlready() ? "No new words found" : "No words found"));
                     }
 
                 } catch (IOException | BaseTable.InsertFailedException e) {

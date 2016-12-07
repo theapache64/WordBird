@@ -1,5 +1,7 @@
 package com.shifz.wordbird;
 
+import com.shifz.wordbird.utils.Extractor;
+import com.shifz.wordbird.utils.FileUtils;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
@@ -8,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,10 +18,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class Lab {
 
-    private static final long MAX_DAY = 5;
-
     public static void main(String[] args) throws IOException, JSONException {
 
+        final String data = FileUtils.read()
+        for(final String word : Extractor.extractWords())
 
     }
 }
