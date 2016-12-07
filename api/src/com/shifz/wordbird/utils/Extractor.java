@@ -27,8 +27,8 @@ public class Extractor {
         final Set<String> wordSet = new HashSet<>();
         for (String word : words) {
 
-            //trimming
-            word = word.trim().toLowerCase();
+            //trimming and removing comma
+            word = word.trim().replaceAll("(,|'s|\\.s)", "").toLowerCase();
 
             if (!word.isEmpty() && word.matches(WORD_REGEX) && !wordSet.contains(word)) {
 

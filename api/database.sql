@@ -55,6 +55,10 @@ CREATE TABLE `preference` (
   UNIQUE KEY `_key` (`_key`)
 );
 
-INSERT INTO preference (_key, _value) VALUES ('grabber_user_id', '1');
+INSERT INTO preference (_key, _value) VALUES
+  ('grabber_user_id', '1'),
+  ('gmail_username', 'mymailer64@gmail.com'),
+  ('gmail_password', 'mypassword64'),
+  ('admin_email','theapache64@gmail.com');
 
 
