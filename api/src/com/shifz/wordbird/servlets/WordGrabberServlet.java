@@ -124,16 +124,6 @@ public class WordGrabberServlet extends HttpServlet {
 
                                     final WordBirdGrabber grabber = new WordBirdGrabber(request);
                                     Result result = grabber.getResult();
-
-                                    if (result == null) {
-
-                                        System.out.println("# Result is null");
-
-                                        //not exist in db, tryed in network but negative
-                                        result = new Result(Result.SOURCE_NETWORK, null, false);
-                                    }
-
-
                                     request.setResult(result);
                                     request.setUrlId(theUrl.getId());
                                     requests.add(request);

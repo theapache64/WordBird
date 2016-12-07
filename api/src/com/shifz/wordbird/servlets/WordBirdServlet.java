@@ -95,7 +95,7 @@ public class WordBirdServlet extends HttpServlet {
 
                         }
 
-                        if (result != null && result.isSuccess()) {
+                        if (result != null) {
 
 
                             //System.out.println("Positive result");
@@ -129,11 +129,6 @@ public class WordBirdServlet extends HttpServlet {
                             );
 
 
-                        }
-
-                        if (result == null) {
-                            //not exist in db, tryed in network but negative
-                            result = new Result(Result.SOURCE_NETWORK, null, false);
                         }
 
 

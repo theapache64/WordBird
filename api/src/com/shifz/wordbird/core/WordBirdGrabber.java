@@ -87,7 +87,7 @@ public class WordBirdGrabber {
         final NetworkHelper networkHelper = new NetworkHelper(url);
 
         try {
-            
+
             final String networkResponse = networkHelper.getResponse();
 
             //System.out.println("Network response : " + networkResponse);
@@ -141,7 +141,7 @@ public class WordBirdGrabber {
 
                     }
 
-                    return new Result(Result.SOURCE_NETWORK, jResponse.toString(), true);
+                    return new Result(Result.SOURCE_NETWORK, null, jResponse.toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

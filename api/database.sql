@@ -28,7 +28,7 @@ CREATE TABLE url_index (
   is_indexed                         TINYINT(4) NOT NULL DEFAULT 0,
   total_words                        INT(11)    NOT NULL DEFAULT 0,
   time_elapsed_to_first_index_in_sec INT(11)             DEFAULT NULL,
-  last_indexed_at                    BIGINT                 DEFAULT NULL,
+  last_indexed_at                    BIGINT              DEFAULT NULL,
   created_at                         TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
@@ -40,7 +40,6 @@ CREATE TABLE `requests` (
   `word`       VARCHAR(50)                                                                                                                      NOT NULL,
   `type`       ENUM ('Synonym', 'Opposite', 'Meaning', 'Rhyme', 'Sentence', 'Plural', 'Singular', 'Past', 'Present', 'Start', 'End', 'Contain') NOT NULL,
   `result_id`  INT(11)                                                                                                                                   DEFAULT NULL,
-  `is_success` TINYINT(4)                                                                                                                       NOT NULL,
   `created_at` TIMESTAMP                                                                                                                        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY (url_id) REFERENCES url_index (id)

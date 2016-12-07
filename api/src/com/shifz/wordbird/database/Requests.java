@@ -14,7 +14,6 @@ import java.sql.SQLException;
 public class Requests extends BaseTable<Request> {
 
     private static final String COLUMN_RESULT = "result";
-    private static final String COLUMN_IS_SUCCESS = "is_success";
     public static final String COLUMN_WORD = "word";
     private static final String COLUMN_ID = "id";
     public static final String COLUMN_TYPE = "type";
@@ -36,7 +35,7 @@ public class Requests extends BaseTable<Request> {
         final java.sql.Connection con = Connection.getConnection();
 
         //Adding the result
-        if (request.getResult().toString() != null && request.getResult().getId() == null) {
+        if (request.getResult() != null) {
 
             //New request
             final String query = "INSERT INTO results (result) VALUES (?)";
@@ -57,7 +56,7 @@ public class Requests extends BaseTable<Request> {
         }
 
 
-        final String query = "INSERT INTO requests (user_id,word,type,is_success,result_id,url_id) VALUES (?,?,?,?,?,?);";
+        final String query = "INSERT INTO requests (user_id,word,type,result_id,url_id) VALUES (?,?,?,?,?);";
         boolean isAdded = false;
         try {
 
@@ -67,9 +66,8 @@ public class Requests extends BaseTable<Request> {
             ps.setString(3, request.getType());
 
             final Result result = request.getResult();
-            ps.setInt(4, result.isSuccessInt()); //is_success = true
-            ps.setString(5, result.getId()); //result = null
-            ps.setString(6, request.getUrlId());
+            ps.setString(4, result.getId()); //result = null
+            ps.setString(5, request.getUrlId());
 
             isAdded = ps.execute();
             ps.close();
@@ -94,15 +92,8 @@ public class Requests extends BaseTable<Request> {
     //Return the result JSON if the result exists in the db
     public Result getResult(final Request request) {
 
-        //TODO: Remove concatenation
-        final String query =
-                "SELECT\n" +
-                        "rs.id,\n" +
-                        "rs.result,\n" +
-                        "r.is_success\n" +
-                        "FROM requests r\n" +
-                        "LEFT JOIN results rs ON rs.id = r.result_id\n" +
-                        "WHERE type = ? AND word= ?  LIMIT 1";
+        final String query = "SELECT rs.id, rs.result FROM requests r LEFT JOIN results rs ON rs.id = r.result_id WHERE type = ? AND word= ? LIMIT 1";
+
 
         System.out.println("Query:" + query);
 
@@ -119,8 +110,7 @@ public class Requests extends BaseTable<Request> {
             if (rs.next()) {
                 final String id = rs.getString(COLUMN_ID);
                 final String result = rs.getString(COLUMN_RESULT);
-                final boolean isSuccess = CommonHelper.parseBoolean(rs.getInt(COLUMN_IS_SUCCESS));
-                dbResult = new Result(Result.SOURCE_DATABASE, id, result, isSuccess);
+                dbResult = new Result(Result.SOURCE_DATABASE, id, result);
             }
 
             rs.close();
