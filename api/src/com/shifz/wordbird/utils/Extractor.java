@@ -13,6 +13,9 @@ import java.util.Set;
  */
 public class Extractor {
 
+    private static final String WORD_REGEX = "[A-Za-z\\-]+";
+
+
     public static Set<String> extractWords(String data, @Nullable List<String> wordsToExclude) {
         //Removing html tags
         data = data.replaceAll("<[^>]*>", "");
@@ -25,9 +28,9 @@ public class Extractor {
         for (String word : words) {
 
             //trimming
-            word = word.trim();
+            word = word.trim().toLowerCase();
 
-            if (!word.isEmpty() && !wordSet.contains(word)) {
+            if (!word.isEmpty() && word.matches(WORD_REGEX) && !wordSet.contains(word)) {
 
                 if (wordsToExclude == null || !wordsToExclude.contains(word)) {
                     wordSet.add(word);

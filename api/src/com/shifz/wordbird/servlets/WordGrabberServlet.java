@@ -138,7 +138,7 @@ public class WordGrabberServlet extends HttpServlet {
                                     request.setUrlId(theUrl.getId());
                                     requests.add(request);
 
-                                    System.out.println("Request added : " + request);
+                                    System.out.println("Request added to database");
 
                                 } else {
 
