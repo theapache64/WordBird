@@ -1,8 +1,7 @@
-a
-b
-c
-d
-e f
-g h i               j k k l
-
-p opo po po po po po po
+help
+hello
+ping
+kick
+ass
+ass
+ass

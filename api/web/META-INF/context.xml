@@ -21,7 +21,7 @@
             password="mike"
             driverClassName="com.mysql.jdbc.Driver"
             url="jdbc:mysql://localhost:3306/wordbird?allowMultiQueries=true"
-            />
+            /><!--
 
     <Resource
             name="jdbc/wordbirdRemote"
@@ -43,6 +43,6 @@
             removeAbandonedTimeout="233"
             driverClassName="com.mysql.jdbc.Driver"
             url="jdbc:mysql://theapache64.xyz:3306/wordbird?allowMultiQueries=true"
-            />
+            />-->
 
 </Context>
