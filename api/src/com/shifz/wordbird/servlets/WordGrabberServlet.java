@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -85,7 +86,7 @@ public class WordGrabberServlet extends HttpServlet {
                     final String data = new NetworkHelper(url).getResponse();
 
                     //Extracting missing words only
-                    final List<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
+                    final Set<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
 
                     if (words != null && !words.isEmpty()) {
 

@@ -20,8 +20,10 @@ public class Lab {
 
     public static void main(String[] args) throws IOException, JSONException {
 
-        final String data = FileUtils.read()
-        for(final String word : Extractor.extractWords())
+        final String data = FileUtils.read(System.getProperty("user.dir") + "/extras/words.txt");
+        for (final String word : Extractor.extractWords(data, null)) {
+            System.out.println("x " + word);
+        }
 
     }
 }
