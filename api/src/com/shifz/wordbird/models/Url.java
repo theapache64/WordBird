@@ -80,6 +80,7 @@ public class Url {
         return lastIndexedAt;
     }
 
+
     @Override
     public String toString() {
         return "Url{" +

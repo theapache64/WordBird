@@ -31,6 +31,36 @@ public class UrlIndex extends BaseTable<Url> {
     }
 
     @Override
+    public String addv3(Url newInstance) throws InsertFailedException {
+        String id = null;
+        final String query = "INSERT INTO url_index (url) VALUES (?);";
+        final java.sql.Connection con = Connection.getConnection();
+        try {
+            final PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, newInstance.getUrl());
+            ps.executeUpdate();
+            final ResultSet rs = ps.getGeneratedKeys();
+            if (rs.first()) {
+                id = rs.getString(1);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (id == null) {
+            throw new InsertFailedException("Failed to add new url to the url_index table");
+        }
+        return id;
+    }
+
+    @Override
     public Url get(String column, String value) {
 
         Url theUrl = null;

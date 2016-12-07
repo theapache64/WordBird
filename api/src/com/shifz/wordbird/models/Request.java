@@ -31,6 +31,7 @@ public class Request {
     private String realWord;
     private Result result;
     private String code;
+    private String urlId;
 
 
     public Request(String userId, String word, String type, Result result) {
@@ -55,7 +56,7 @@ public class Request {
     private static String getCode(String type) {
 
         switch (type) {
-            
+
             case TYPE_SYNONYM:
                 return Code.ANOTHER_WORD_FOR;
             case TYPE_OPPOSITE:
@@ -145,5 +146,27 @@ public class Request {
 
     public boolean isClearHtml() {
         return this.isClearHtml;
+    }
+
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
+    }
+
+    public String getUrlId() {
+        return urlId;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "type='" + type + '\'' +
+                ", isClearHtml=" + isClearHtml +
+                ", userId='" + userId + '\'' +
+                ", word='" + word + '\'' +
+                ", realWord='" + realWord + '\'' +
+                ", result=" + result +
+                ", code='" + code + '\'' +
+                ", urlId='" + urlId + '\'' +
+                '}';
     }
 }

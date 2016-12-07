@@ -54,8 +54,8 @@ public class WordGrabberServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("-------------------------------------");
-
+        System.out.println("--------------------------");
+        System.out.println("Started");
         final PrintWriter out = resp.getWriter();
 
         //Getting url
@@ -63,117 +63,117 @@ public class WordGrabberServlet extends HttpServlet {
 
         if (url != null && !url.trim().isEmpty()) {
 
-            //url param is not empty!
-            if (url.matches(URL_REGEX)) {
+            System.out.println("Url: " + url);
 
-                System.out.println("Url: " + url);
+            final long indexingStartedAt = System.currentTimeMillis();
 
-                final long indexingStartedAt = System.currentTimeMillis();
+            //Valid URL
 
-                //Valid URL
+            try {
 
-                try {
+                final UrlIndex urlIndexTable = UrlIndex.getInstance();
 
-                    final UrlIndex urlIndexTable = UrlIndex.getInstance();
+                //Checking if the url is indexed.
+                Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
 
-                    //Checking if the url is indexed.
-                    Url theUrl = UrlIndex.getInstance().get(UrlIndex.COLUMN_URL, url);
+                if (theUrl == null) {
 
-                    if (theUrl == null) {
+                    System.out.println("Adding url to index");
 
-                        System.out.println("Adding url to index");
+                    //New url, does not exist in the index.
+                    theUrl = new Url(null, url, null, false, true);
+                    theUrl.setTotalTimeElapsedToFirstIndex(-1);
+                    final String urlId = urlIndexTable.addv3(theUrl);
+                    theUrl.setId(urlId);
+                }
 
-                        //New url, does not exist in the index.
-                        theUrl = new Url(null, url, null, false, true);
-                        final String urlId = urlIndexTable.addv3(theUrl);
-                        theUrl.setId(urlId);
-                    }
+                System.out.println("Url: " + theUrl);
 
-                    System.out.println("Url: " + theUrl);
+                if (theUrl.shouldReIndex()) {
 
-                    if (theUrl.shouldReIndex()) {
+                    System.out.println("Starting indexing...");
 
-                        System.out.println("Starting indexing...");
+                    System.out.println("Downloading network data...");
+                    final String data = new NetworkHelper(url).getResponse();
 
-                        System.out.println("Downloading network data...");
-                        final String data = new NetworkHelper(url).getResponse();
-                        System.out.printf("Network data downloaded");
+                    System.out.println("Network data downloaded");
 
-                        //Extracting missing words only
-                        final Set<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
+                    //Extracting missing words only
+                    final Set<String> words = Extractor.extractWords(data, theUrl.isIndexedAlready() ? theUrl.getWords() : null);
 
-                        if (words != null && !words.isEmpty()) {
+                    if (words != null && !words.isEmpty()) {
 
-                            System.out.println("Analyzing words... " + words + " word(s) found");
+                        System.out.println("Analyzing words... " + words + " word(s) found");
 
-                            final Requests requests = Requests.getInstance();
+                        final Requests requests = Requests.getInstance();
 
-                            final String grabberUserId = Preference.getInstance().getString(Preference.KEY_GRABBER_USER_ID);
+                        final String grabberUserId = Preference.getInstance().getString(Preference.KEY_GRABBER_USER_ID);
 
-                            //looping through each word
-                            for (final String word : words) {
+                        //looping through each word
+                        for (final String word : words) {
 
-                                //looping through each mode
-                                for (final String type : TYPES) {
+                            //looping through each mode
+                            for (final String type : TYPES) {
 
-                                    System.out.println(String.format("word: %s - type: %s", word, type));
+                                System.out.println(String.format("word: %s - type: %s", word, type));
 
-                                    if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
+                                if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
 
-                                        final Request request = new Request(word, type);
-                                        request.setUserId(grabberUserId);
+                                    final Request request = new Request(word, type);
+                                    request.setUserId(grabberUserId);
 
-                                        final WordBirdGrabber grabber = new WordBirdGrabber(request);
-                                        Result result = grabber.getResult();
+                                    final WordBirdGrabber grabber = new WordBirdGrabber(request);
+                                    Result result = grabber.getResult();
 
-                                        if (result == null) {
-                                            //not exist in db, tryed in network but negative
-                                            result = new Result(Result.SOURCE_NETWORK, null, false);
-                                        }
+                                    if (result == null) {
 
+                                        System.out.println("# Result is null");
 
-                                        request.setResult(result);
-                                        requests.add(request);
-
-                                        System.out.println("Data added : " + result);
-
-                                    } else {
-
-                                        System.out.println("Data exists");
+                                        //not exist in db, tryed in network but negative
+                                        result = new Result(Result.SOURCE_NETWORK, null, false);
                                     }
 
+
+                                    request.setResult(result);
+                                    request.setUrlId(theUrl.getId());
+                                    requests.add(request);
+
+                                    System.out.println("Request added : " + request);
+
+                                } else {
+
+                                    System.out.println("Data exists");
                                 }
+
                             }
-
-                            //Url indexing finished. So update the database table.
-                            theUrl.setIsIndexedAlready(true);
-                            theUrl.setWordsCount(words.size());
-                            final long elapsedTimeToFirstIndex = theUrl.getTotalTimeElapsedToFirstIndex() == -1 ? TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - indexingStartedAt) : theUrl.getTotalTimeElapsedToFirstIndex();
-                            theUrl.setTotalTimeElapsedToFirstIndex(elapsedTimeToFirstIndex);
-                            theUrl.setLastIndexedAt(System.currentTimeMillis());
-
-                            urlIndexTable.update(theUrl);
-
-                            out.write(JSONHelper.getSuccessJSON("Indexing finished", "url", theUrl.toString()));
-
-                        } else {
-                            out.write(JSONHelper.getErrorJSON(theUrl.isIndexedAlready() ? "No new words found" : "No words found"));
                         }
 
-                    } else {
-                        System.out.println("No need to index. :) Already indexed and it's fresh.");
+                        //Url indexing finished. So update the database table.
+                        theUrl.setIsIndexedAlready(true);
+                        theUrl.setWordsCount(words.size());
+                        final long elapsedTimeToFirstIndex = theUrl.getTotalTimeElapsedToFirstIndex() == -1 ? TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - indexingStartedAt) : theUrl.getTotalTimeElapsedToFirstIndex();
+                        theUrl.setTotalTimeElapsedToFirstIndex(elapsedTimeToFirstIndex);
+                        theUrl.setLastIndexedAt(System.currentTimeMillis());
 
-                        out.write(JSONHelper.getSuccessJSON("Indexed url", "url", url));
+                        System.out.println("Updating url : " + theUrl);
+
+                        urlIndexTable.update(theUrl);
+
+                        out.write(JSONHelper.getSuccessJSON("Indexing finished", "url", theUrl.toString()));
+
+                    } else {
+                        out.write(JSONHelper.getErrorJSON(theUrl.isIndexedAlready() ? "No new words found" : "No words found"));
                     }
 
+                } else {
+                    System.out.println("No need to index. :) Already indexed and it's fresh.");
 
-                } catch (IOException | BaseTable.InsertFailedException e) {
-                    out.write(JSONHelper.getErrorJSON(url + " : " + e.getMessage()));
+                    out.write(JSONHelper.getSuccessJSON("Indexed url", "url", url));
                 }
 
 
-            } else {
-                out.write(JSONHelper.getErrorJSON("Invalid URL : " + url));
+            } catch (IOException | BaseTable.InsertFailedException e) {
+                out.write(JSONHelper.getErrorJSON(url + " : " + e.getMessage()));
             }
 
 
@@ -181,6 +181,8 @@ public class WordGrabberServlet extends HttpServlet {
             out.write(JSONHelper.getErrorJSON("Missing param: url"));
         }
 
+        System.out.println("Finished");
+        System.out.println("--------------------------");
 
     }
 }

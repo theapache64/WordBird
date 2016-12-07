@@ -1,7 +1,0 @@
-help
-hello
-ping
-kick
-ass
-ass
-ass

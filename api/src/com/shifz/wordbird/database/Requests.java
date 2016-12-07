@@ -36,7 +36,7 @@ public class Requests extends BaseTable<Request> {
         final java.sql.Connection con = Connection.getConnection();
 
         //Adding the result
-        if (request.getResult().getId() == null) {
+        if (request.getResult().toString() != null && request.getResult().getId() == null) {
 
             //New request
             final String query = "INSERT INTO results (result) VALUES (?)";
@@ -57,7 +57,7 @@ public class Requests extends BaseTable<Request> {
         }
 
 
-        final String query = "INSERT INTO requests (user_id,word,type,is_success,result_id) VALUES (?,?,?,?,?);";
+        final String query = "INSERT INTO requests (user_id,word,type,is_success,result_id,url_id) VALUES (?,?,?,?,?,?);";
         boolean isAdded = false;
         try {
 
@@ -69,6 +69,7 @@ public class Requests extends BaseTable<Request> {
             final Result result = request.getResult();
             ps.setInt(4, result.isSuccessInt()); //is_success = true
             ps.setString(5, result.getId()); //result = null
+            ps.setString(6, request.getUrlId());
 
             isAdded = ps.execute();
             ps.close();
