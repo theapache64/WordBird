@@ -41,10 +41,11 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
             Request.TYPE_CONTAIN
     };
 
-    private static final int DEFAULT_DEEP_LINK_LEVEL = 1;
+    private static final int DEFAULT_DEEP_LINK_LEVEL = 0;
     private static final String KEY_DEEP_LINK_LEVEL = "deep_link_level";
     private int maxDeepLinkLevel;
     private int currentDeepLinkLevel = 0;
+    private static final int DEEP_LINK_LEVEL_INFINITE = -1;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -71,16 +72,26 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
         maxDeepLinkLevel = super.getIntParameter(KEY_DEEP_LINK_LEVEL, DEFAULT_DEEP_LINK_LEVEL);
 
+        System.out.println("MAX DEEP LINK LEVEL = " + maxDeepLinkLevel);
+
         final String url = getStringParameter(UrlIndex.COLUMN_URL);
         grab(url);
+
+        System.out.println("Finished");
+        System.out.println("--------------------------");
+
     }
 
     private void grab(String url) throws com.shifz.wordbird.utils.Request.RequestException, BaseTable.InsertFailedException, IOException, JSONException {
 
-        if (currentDeepLinkLevel >= maxDeepLinkLevel) {
-            System.out.println("Deeplink level reached: MAX: " + maxDeepLinkLevel + " CURRENT: " + currentDeepLinkLevel);
+        System.out.println("Current deep link level: " + currentDeepLinkLevel);
+
+
+        if (maxDeepLinkLevel != DEFAULT_DEEP_LINK_LEVEL && maxDeepLinkLevel != DEEP_LINK_LEVEL_INFINITE && currentDeepLinkLevel >= maxDeepLinkLevel) {
+            System.out.println("Deep link level reached: MAX: " + maxDeepLinkLevel + " CURRENT: " + currentDeepLinkLevel);
             return;
         }
+
 
         if (url != null && !url.trim().isEmpty()) {
 
@@ -89,8 +100,6 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
             final long indexingStartedAt = System.currentTimeMillis();
 
             //Valid URL
-
-
             final UrlIndex urlIndexTable = UrlIndex.getInstance();
 
             //Checking if the url is indexed.
@@ -109,12 +118,13 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
             System.out.println("Url: " + theUrl);
 
+
+            System.out.println("Downloading network data...");
+            final String data = new NetworkHelper(url).getResponse();
+
             if (theUrl.shouldReIndex()) {
 
                 System.out.println("Starting indexing...");
-
-                System.out.println("Downloading network data...");
-                final String data = new NetworkHelper(url).getResponse();
 
                 System.out.println("Network data downloaded");
 
@@ -166,30 +176,38 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
                     System.out.println("Updating url : " + theUrl);
                     urlIndexTable.update(theUrl);
-
-                    //Sending an email to the admin about the url that recently indexed.
-                    MailHelper.sendMail(Preference.getInstance().getString(Preference.KEY_ADMIN_EMAIL), "WordBird - URL Indexing finished", "Url indexed: " + theUrl.toString());
                     currentDeepLinkLevel++;
 
-                    //Doing deep index
-                    final Set<String> urls = Extractor.extractUrls(url, data);
-                    if (urls != null) {
-                        for (final String deepLinkUrl : urls) {
-                            System.out.println("Deeplinking to " + deepLinkUrl);
-                            grab(deepLinkUrl);
-                        }
-                    }
-
-                    getWriter().write(new APIResponse("Indexing finished", "url", theUrl.toString()).getResponse());
-
                 } else {
-                    getWriter().write(new APIResponse(theUrl.isIndexedAlready() ? "No new words found" : "No words found").getResponse());
+                    System.out.println(theUrl.isIndexedAlready() ? "No new words found" : "No words found");
                 }
-
             } else {
                 System.out.println("No need to index. :) Already indexed and it's fresh.");
-                getWriter().write(new APIResponse("Indexed url", "url", url).getResponse());
             }
+
+
+            //Sending an email to the admin about the url that recently indexed.
+            //TODO:MailHelper.sendMail(Preference.getInstance().getString(Preference.KEY_ADMIN_EMAIL), "WordBird - URL Indexing finished", "Url indexed: " + theUrl.toString());
+
+            if (maxDeepLinkLevel > 0) {
+
+                System.out.println("Downloading deep link links...");
+
+                //Doing deep index
+                final Set<String> urls = Extractor.extractUrls(url, data);
+
+                System.out.println(urls.size() + " link(s) found");
+
+                for (final String deepLinkUrl : urls) {
+                    System.out.println("Deep linking to " + deepLinkUrl);
+                    grab(deepLinkUrl);
+                }
+
+            }
+
+
+            getWriter().write(new APIResponse("Indexing finished", "url", theUrl.toString()).getResponse());
+
 
         } else {
             throw new com.shifz.wordbird.utils.Request.RequestException("Missing param: url");

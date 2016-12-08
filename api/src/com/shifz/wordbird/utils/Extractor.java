@@ -44,7 +44,13 @@ public class Extractor {
         return wordSet;
     }
 
-    public static Set<String> extractUrls(final String baseUrl, String data) {
+    public static Set<String> extractUrls(String baseUrl, String data) {
+
+        final int slashCount = baseUrl.split("/").length - 1;
+        if (slashCount > 2) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+        }
+
         final Matcher matcher = Pattern.compile(" href=\"(.+)\"").matcher(data);
         final Set<String> urls = new HashSet<>();
         while (matcher.find()) {
