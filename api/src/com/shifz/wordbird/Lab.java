@@ -21,11 +21,11 @@ public class Lab {
 
     public static void main(String[] args) throws IOException, JSONException {
 
-        final String data = FileUtils.read(System.getProperty("user.dir") + "/web/words.txt");
-        final Set<String> words = Extractor.extractWords(data, null);
-        for (final String word : words) {
-            System.out.println("x " + word);
+        final String data = FileUtils.read(System.getProperty("user.dir") + "/web/test_data.html");
+        final Set<String> urls = Extractor.extractUrls("http://example.com", data);
+        for (final String url : urls) {
+            System.out.println("x " + url);
         }
-        System.out.println(words.size());
+        System.out.println(urls.size());
     }
 }

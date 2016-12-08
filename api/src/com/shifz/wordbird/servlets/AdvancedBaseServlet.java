@@ -112,4 +112,12 @@ public abstract class AdvancedBaseServlet extends HttpServlet {
     public long getLongParameter(String key) {
         return request.getLongParameter(key);
     }
+
+    public int getIntParameter(String key, int defaultValue) {
+        final String value = getStringParameter(key);
+        if (value != null) {
+            return Integer.parseInt(value);
+        }
+        return defaultValue;
+    }
 }

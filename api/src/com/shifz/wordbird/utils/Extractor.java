@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by theapache64 on 3/12/16.
@@ -42,7 +44,16 @@ public class Extractor {
         return wordSet;
     }
 
-    public static List<String> extractUrls(String data) {
-        return null;
+    public static Set<String> extractUrls(final String baseUrl, String data) {
+        final Matcher matcher = Pattern.compile(" href=\"(.+)\"").matcher(data);
+        final Set<String> urls = new HashSet<>();
+        while (matcher.find()) {
+            String url = matcher.group(1).split("\"")[0];
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = baseUrl + ((baseUrl.endsWith("/") || url.startsWith("/")) ? "" : "/") + url;
+            }
+            urls.add(url);
+        }
+        return urls;
     }
 }
