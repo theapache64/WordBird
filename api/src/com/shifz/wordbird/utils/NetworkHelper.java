@@ -1,5 +1,7 @@
 package com.shifz.wordbird.utils;
 
+import com.sun.istack.internal.Nullable;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,27 +19,30 @@ public class NetworkHelper {
         this.url = url;
     }
 
-    public String getResponse() throws IOException {
+    @Nullable
+    public String getResponse() {
 
         //System.out.println("->" + url);
+        try {
 
-        final URL urlOb = new URL(url);
-        final InputStream is = urlOb.openStream();
-        final InputStreamReader isr = new InputStreamReader(is);
-        final BufferedReader br = new BufferedReader(isr);
-        final StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            response.append(line).append("\n");
+            final URL urlOb = new URL(url);
+            final InputStream is = urlOb.openStream();
+            final InputStreamReader isr = new InputStreamReader(is);
+            final BufferedReader br = new BufferedReader(isr);
+            final StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                response.append(line).append("\n");
+            }
+            is.close();
+            isr.close();
+            br.close();
+
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        is.close();
-        isr.close();
-        br.close();
-
-        //System.out.println("Network response downloaded + ");
-
-        return response.toString();
-
     }
 
 }

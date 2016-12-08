@@ -86,73 +86,66 @@ public class WordBirdGrabber {
 
         final NetworkHelper networkHelper = new NetworkHelper(url);
 
-        try {
 
-            final String networkResponse = networkHelper.getResponse();
+        final String networkResponse = networkHelper.getResponse();
 
-            //System.out.println("Network response : " + networkResponse);
+        //System.out.println("Network response : " + networkResponse);
 
-            if (networkResponse != null) {
+        if (networkResponse != null) {
 
-                try {
+            try {
 
-                    final JSONArray jResponse = new JSONArray();
+                final JSONArray jResponse = new JSONArray();
 
-                    for (final String wordTypeNode : getWordTypeNodes(networkResponse)) {
+                for (final String wordTypeNode : getWordTypeNodes(networkResponse)) {
 
-                        final String wordTypeName = wordTypeNode.split(FOURTH_DELIMITER)[0];
+                    final String wordTypeName = wordTypeNode.split(FOURTH_DELIMITER)[0];
 
-                        if (isNoMatchFound(wordTypeNode)) {
-                            //No word found
-                            //System.out.println("No match found :(");
-                            return null;
-                        }
+                    if (isNoMatchFound(wordTypeNode)) {
+                        //No word found
+                        //System.out.println("No match found :(");
+                        return null;
+                    }
 
 
-                        if (!wordTypeName.trim().isEmpty()) {
+                    if (!wordTypeName.trim().isEmpty()) {
 
-                            final JSONObject jNode = new JSONObject();
-                            jNode.put(KEY_HEAD, wordTypeName);
+                        final JSONObject jNode = new JSONObject();
+                        jNode.put(KEY_HEAD, wordTypeName);
 
-                            final JSONArray jBody = new JSONArray();
+                        final JSONArray jBody = new JSONArray();
 
-                            final Matcher synonymMatcher = getMatcher(wordTypeNode);
+                        final Matcher synonymMatcher = getMatcher(wordTypeNode);
 
-                            while (synonymMatcher.find()) {
+                        while (synonymMatcher.find()) {
 
-                                String word = synonymMatcher.group(1);
+                            String word = synonymMatcher.group(1);
 
-                                //System.out.println("Result: " + word);
+                            //System.out.println("Result: " + word);
 
-                                if (request.isClearHtml()) {
-                                    word = removeHtml(word);
-                                }
-
-                                if (!isInvalidWord(word)) {
-                                    jBody.put(word);
-                                }
-
+                            if (request.isClearHtml()) {
+                                word = removeHtml(word);
                             }
 
-                            jNode.put(KEY_BODY, jBody);
-                            jResponse.put(jNode);
+                            if (!isInvalidWord(word)) {
+                                jBody.put(word);
+                            }
 
                         }
+
+                        jNode.put(KEY_BODY, jBody);
+                        jResponse.put(jNode);
 
                     }
 
-                    return new Result(Result.SOURCE_NETWORK, null, jResponse.toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return null;
                 }
 
+                return new Result(Result.SOURCE_NETWORK, null, jResponse.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
 
         return null;

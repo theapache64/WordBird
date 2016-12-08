@@ -27,8 +27,8 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
 
     private static final String[] TYPES = {
-            Request.TYPE_SYNONYM,
-            Request.TYPE_OPPOSITE,
+            Request.TYPE_SYNONYM
+         /*   Request.TYPE_OPPOSITE,
             Request.TYPE_MEANING,
             Request.TYPE_RHYME,
             Request.TYPE_SENTENCE,
@@ -38,7 +38,7 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
             Request.TYPE_PRESENT,
             Request.TYPE_START,
             Request.TYPE_END,
-            Request.TYPE_CONTAIN
+            Request.TYPE_CONTAIN*/
     };
 
     private static final int DEFAULT_DEEP_LINK_LEVEL = 0;
@@ -82,14 +82,13 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
     }
 
-    private void grab(String url) throws com.shifz.wordbird.utils.Request.RequestException, BaseTable.InsertFailedException, IOException, JSONException {
+    private boolean grab(String url) throws com.shifz.wordbird.utils.Request.RequestException, BaseTable.InsertFailedException, IOException, JSONException {
 
         System.out.println("Current deep link level: " + currentDeepLinkLevel);
 
-
         if (maxDeepLinkLevel != DEFAULT_DEEP_LINK_LEVEL && maxDeepLinkLevel != DEEP_LINK_LEVEL_INFINITE && currentDeepLinkLevel >= maxDeepLinkLevel) {
             System.out.println("Deep link level reached: MAX: " + maxDeepLinkLevel + " CURRENT: " + currentDeepLinkLevel);
-            return;
+            return false;
         }
 
 
@@ -121,6 +120,18 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
             System.out.println("Downloading network data...");
             final String data = new NetworkHelper(url).getResponse();
+
+            if (data == null) {
+
+                theUrl.setIsIndexedAlready(true);
+                theUrl.setWords(null);
+                theUrl.setTotalTimeElapsedToFirstIndex(0);
+                theUrl.setLastIndexedAt(System.currentTimeMillis());
+
+                System.out.println("Updating url : " + theUrl);
+                urlIndexTable.update(theUrl);
+                return true;
+            }
 
             if (theUrl.shouldReIndex()) {
 
@@ -200,7 +211,9 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
                 for (final String deepLinkUrl : urls) {
                     System.out.println("Deep linking to " + deepLinkUrl);
-                    grab(deepLinkUrl);
+                    if (!grab(deepLinkUrl)) {
+                        break;
+                    }
                 }
 
             }
@@ -208,10 +221,10 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
             getWriter().write(new APIResponse("Indexing finished", "url", theUrl.toString()).getResponse());
 
-
         } else {
             throw new com.shifz.wordbird.utils.Request.RequestException("Missing param: url");
         }
 
+        return true;
     }
 }

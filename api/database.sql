@@ -21,7 +21,6 @@ CREATE TABLE `results` (
   PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE url_index (
   id                                 INT        NOT NULL AUTO_INCREMENT,
   url                                TEXT       NOT NULL,
@@ -59,6 +58,4 @@ INSERT INTO preference (_key, _value) VALUES
   ('grabber_user_id', '1'),
   ('gmail_username', 'mymailer64@gmail.com'),
   ('gmail_password', 'mypassword64'),
-  ('admin_email','theapache64@gmail.com');
-
-
+  ('admin_email', 'theapache64@gmail.com');
