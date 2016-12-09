@@ -21,7 +21,7 @@ public class Lab {
 
     public static void main(String[] args) throws IOException, JSONException {
 
-        final String data = FileUtils.read(System.getProperty("user.dir") + "/web/test_data/test_data.html");
+        final String data = FileUtils.read(System.getProperty("user.dir") + "/web/test_data/t1.html");
         final Set<String> urls = Extractor.extractUrls("http://example.com", data);
         for (final String url : urls) {
             System.out.println("x " + url);
