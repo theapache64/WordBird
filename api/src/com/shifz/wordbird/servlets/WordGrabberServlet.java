@@ -90,7 +90,6 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
                     currentDeepLinkLevel = 0;
                     logIt("MAX DEEP LINK LEVEL = " + maxDeepLinkLevel);
 
-
                     grab(url);
 
                     logIt("Finished");
@@ -177,7 +176,7 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
                 if (words != null && !words.isEmpty()) {
 
-                    logIt("Analyzing words... " + words + " word(s) found");
+                    logIt("Analyzing words... " + words.size() + " word(s) found");
 
                     final Requests requests = Requests.getInstance();
 
@@ -189,25 +188,33 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
                         //looping through each mode
                         for (final String type : TYPES) {
 
-                            logIt(String.format("word: %s - type: %s", word, type));
+                            logIt("----------------------");
+                            logIt(String.format("%s - %s", word, type));
+
 
                             if (!requests.isExist(Requests.COLUMN_WORD, word, Requests.COLUMN_TYPE, type)) {
 
-                                final Request request = new Request(word, type);
-                                request.setUserId(grabberUserId);
+                                final String urlId = theUrl.getId();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        final Request request = new Request(word, type);
+                                        request.setUserId(grabberUserId);
 
-                                final WordBirdGrabber grabber = new WordBirdGrabber(request);
-                                Result result = grabber.getResult();
-                                request.setResult(result);
-                                request.setUrlId(theUrl.getId());
-                                requests.add(request);
+                                        final WordBirdGrabber grabber = new WordBirdGrabber(request);
+                                        Result result = grabber.getResult();
+                                        request.setResult(result);
+                                        request.setUrlId(urlId);
+                                        requests.add(request);
+                                    }
+                                }).start();
 
-                                logIt("Request added to database");
 
                             } else {
-
-                                logIt("Data exists");
+                                logIt("# Data exists");
                             }
+
+                            logIt("----------------------");
                         }
                     }
 
@@ -244,7 +251,17 @@ public class WordGrabberServlet extends AdvancedBaseServlet {
 
                 for (final String deepLinkUrl : urls) {
                     logIt("Deep linking to " + deepLinkUrl);
-                    grab(deepLinkUrl);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                grab(deepLinkUrl);
+                            } catch (com.shifz.wordbird.utils.Request.RequestException | BaseTable.InsertFailedException | IOException | JSONException e) {
+                                e.printStackTrace();
+                                currentDeepLinkLevel--;
+                            }
+                        }
+                    }).start();
                 }
 
             }
